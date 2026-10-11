@@ -477,4 +477,4 @@ class AHIrfanApp(App):
 
 
 if __name__ == "__main__":
-    AHIrfanApp().run()EExEx
+    AHIrfanApp().run()
