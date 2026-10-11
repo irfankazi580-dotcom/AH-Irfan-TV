@@ -5,10 +5,15 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
       - run: python3 -m py_compile main.py
-      - run: sudo apt-get update && sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential ccache
+      - run: sudo apt-get update && sudo apt-get install -y git zip unzip autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential ccache
       - run: pip install --upgrade pip buildozer cython==0.29.36 setuptools
-      - run: buildozer -v android debug > build.log 2>&1 || (grep -A 25 -e wrong -e FAILURE build.log | head -n 90; exit 1)
+      - run: java -version
+      - run: buildozer -v android debug > build.log 2>&1 || (grep -A 8 -e wrong build.log | head -n 40; exit 1)
       - uses: actions/upload-artifact@v4
         with:
           name: AH-Irfan-apk
