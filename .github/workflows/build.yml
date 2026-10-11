@@ -6,8 +6,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential ccache
-      - run: pip install --upgrade pip buildozer cython==3.0.11 setuptools
-      - run: buildozer -v android debug
+      - run: pip install --upgrade pip buildozer cython==0.29.36 setuptools
+      - run: buildozer -v android debug > build.log 2>&1 || (tail -n 80 build.log; exit 1)
       - uses: actions/upload-artifact@v4
         with:
           name: AH-Irfan-apk
