@@ -5,14 +5,11 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
+      - run: python3 -m py_compile main.py
       - run: sudo apt-get update && sudo apt-get install -y git zip unzip openjdk-17-jdk autoconf libtool pkg-config zlib1g-dev libncurses5-dev libncursesw5-dev libtinfo5 cmake libffi-dev libssl-dev build-essential ccache
       - run: pip install --upgrade pip buildozer cython==0.29.36 setuptools
-      - run: buildozer -v android debug > build.log 2>&1 || (grep -v ^# build.log | tail -n 60; grep -i -e error -e fail build.log | grep -v ^# | tail -n 30; exit 1)
+      - run: buildozer -v android debug > build.log 2>&1 || (grep -A 25 -e wrong -e FAILURE build.log | head -n 90; exit 1)
       - uses: actions/upload-artifact@v4
         with:
           name: AH-Irfan-apk
           path: bin/*.apk
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: bui
